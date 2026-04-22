@@ -1,0 +1,148 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+
+  # ── SITE SETTINGS ──────────────────────────────────
+  - name: "settings"
+    label: "Site Settings"
+    files:
+
+      - name: "hero"
+        label: "Hero Section"
+        file: "_data/hero.json"
+        fields:
+          - { label: "Eyebrow Text", name: "eyebrow", widget: "string", hint: "e.g. Studio · Partnerships · Deal Flow" }
+          - { label: "First Name", name: "first_name", widget: "string" }
+          - { label: "Last Name", name: "last_name", widget: "string" }
+          - { label: "Tagline", name: "tagline", widget: "string", hint: "e.g. Creative at heart. Builder by nature." }
+          - label: "CTA Buttons"
+            name: "ctas"
+            widget: "list"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "Link", name: "link", widget: "string" }
+              - { label: "Style", name: "style", widget: "select", options: ["primary", "outline"] }
+
+      - name: "banner"
+        label: "Banner"
+        file: "_data/banner.json"
+        fields:
+          - label: "Banner Items"
+            name: "items"
+            widget: "list"
+            field: { label: "Item", name: "item", widget: "string" }
+
+      - name: "work"
+        label: "Work Section"
+        file: "_data/work.json"
+        fields:
+          - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+          - { label: "Headline Line 1", name: "headline_1", widget: "string" }
+          - { label: "Headline Italic Word", name: "headline_italic", widget: "string" }
+          - { label: "Headline Line 2", name: "headline_2", widget: "string" }
+
+      - name: "personal"
+        label: "Personal Projects Section"
+        file: "_data/personal.json"
+        fields:
+          - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+          - { label: "Headline Line 1", name: "headline_1", widget: "string" }
+          - { label: "Headline Line 2", name: "headline_2", widget: "string" }
+          - { label: "Headline Italic Word", name: "headline_italic", widget: "string" }
+
+      - name: "contact"
+        label: "Contact Section"
+        file: "_data/contact.json"
+        fields:
+          - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+          - { label: "Headline Line 1", name: "headline_1", widget: "string" }
+          - { label: "Headline Line 2", name: "headline_2", widget: "string" }
+          - { label: "Headline Line 3 (Gold)", name: "headline_3", widget: "string" }
+          - { label: "Message Placeholder", name: "placeholder", widget: "string" }
+          - label: "Topic Options"
+            name: "topics"
+            widget: "list"
+            field: { label: "Topic", name: "topic", widget: "string" }
+
+      - name: "footer"
+        label: "Footer"
+        file: "_data/footer.json"
+        fields:
+          - { label: "Copyright Text", name: "copyright", widget: "string" }
+          - { label: "Location", name: "location", widget: "string" }
+
+  # ── CASE STUDIES ───────────────────────────────────
+  - name: "projects"
+    label: "Case Studies"
+    folder: "_data/projects"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Project Number", name: "number", widget: "string", hint: "e.g. 01" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Subtitle", name: "subtitle", widget: "string" }
+      - { label: "Card Description", name: "card_desc", widget: "text", hint: "Short description shown on the grid card" }
+      - { label: "Card Tag", name: "card_tag", widget: "string", hint: "e.g. 2016–2021" }
+      - { label: "Status", name: "status", widget: "select", options: ["live", "coming-soon"] }
+      - { label: "Slug / URL", name: "slug", widget: "string", hint: "e.g. katy-trail" }
+      - { label: "Card Style", name: "card_style", widget: "select", options: ["light", "dark"], default: "light" }
+      - { label: "Card Width", name: "card_wide", widget: "boolean", default: false, hint: "Toggle on to make this card span 2 columns" }
+
+      - label: "Hero Image"
+        name: "hero_image"
+        widget: "image"
+        required: false
+
+      - label: "Stats"
+        name: "stats"
+        widget: "list"
+        fields:
+          - { label: "Number", name: "num", widget: "string" }
+          - { label: "Label", name: "label", widget: "string" }
+
+      - { label: "Origin Story", name: "origin", widget: "text" }
+      - { label: "Role Description", name: "role", widget: "text" }
+
+      - label: "Deliverables"
+        name: "deliverables"
+        widget: "list"
+        fields:
+          - { label: "Category", name: "category", widget: "string" }
+          - { label: "Description", name: "description", widget: "string" }
+
+      - label: "Timeline"
+        name: "timeline"
+        widget: "list"
+        fields:
+          - { label: "Year", name: "year", widget: "string" }
+          - { label: "Description", name: "desc", widget: "string" }
+
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        field: { label: "Tag", name: "tag", widget: "string" }
+
+      - label: "Images"
+        name: "images"
+        widget: "list"
+        fields:
+          - { label: "Image", name: "image", widget: "image" }
+          - { label: "Caption", name: "caption", widget: "string", required: false }
+
+  # ── PERSONAL PROJECTS ──────────────────────────────
+  - name: "personal_projects"
+    label: "Personal Projects"
+    folder: "_data/personal"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Name", name: "title", widget: "string" }
+      - { label: "Emoji / Icon", name: "icon", widget: "string", hint: "e.g. 🤠" }
+      - { label: "Description", name: "desc", widget: "text" }
+      - { label: "Tag", name: "tag", widget: "string", hint: "e.g. In Concept, Ongoing, Craft" }
+      - { label: "Sort Order", name: "order", widget: "number" }
