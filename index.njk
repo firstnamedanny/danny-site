@@ -1,0 +1,691 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danny Munoz — Creative Lab</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F5F0E8;
+      --ink: #0E0C09;
+      --orange: #C94B1F;
+      --gold: #D4A843;
+      --mist: #E8E3DA;
+      --mid: #7A7268;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-serif: 'DM Serif Display', serif;
+      --font-mono: 'DM Mono', monospace;
+      --font-body: 'Instrument Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--font-body);
+      cursor: none;
+      overflow-x: hidden;
+    }
+
+    .cursor {
+      width: 8px; height: 8px;
+      background: var(--orange);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+    }
+    .cursor-ring {
+      width: 32px; height: 32px;
+      border: 1px solid var(--orange);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.18s ease;
+      opacity: 0.5;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 48px;
+      mix-blend-mode: multiply;
+    }
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--orange); }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 48px 80px;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(96px, 10vw, 148px);
+      line-height: 0.92;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+      margin-bottom: 28px;
+    }
+    .hero-name .accent { color: var(--orange); display: block; }
+    .hero-tagline {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 20px;
+      color: var(--mid);
+      margin-bottom: 40px;
+      line-height: 1.5;
+    }
+    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-primary {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      background: var(--orange);
+      color: var(--cream);
+      padding: 12px 24px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--ink); transform: translateY(-1px); }
+    .btn-outline {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      border: 1px solid rgba(14,12,9,0.3);
+      color: var(--ink);
+      padding: 12px 24px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--ink); transform: translateY(-1px); }
+
+    .hero-right { position: relative; overflow: hidden; }
+    .hero-grid {
+      position: absolute; inset: 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      opacity: 0.06;
+    }
+    .hero-grid div { border: 1px solid var(--ink); }
+    .hero-circle {
+      position: absolute;
+      width: 55%; aspect-ratio: 1;
+      border-radius: 50%;
+      background: rgba(201,75,31,0.08);
+      top: 50%; left: 50%;
+      transform: translate(-20%, -50%);
+    }
+    .hero-bg-text {
+      font-family: var(--font-display);
+      font-size: clamp(80px, 9vw, 130px);
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(14,12,9,0.09);
+      position: absolute;
+      bottom: 60px; right: -10px;
+      line-height: 0.95;
+      pointer-events: none;
+      user-select: none;
+      text-align: right;
+    }
+
+    .banner {
+      background: var(--ink);
+      padding: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .banner-inner {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      white-space: nowrap;
+    }
+    .banner-item {
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 0.1em;
+      color: var(--cream);
+    }
+    .banner-dot { color: var(--orange); font-size: 14px; }
+
+    .work { padding: 100px 48px 80px; }
+    .work-header { margin-bottom: 60px; }
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--orange);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .section-eyebrow::after {
+      content: '';
+      display: block;
+      width: 48px; height: 1px;
+      background: var(--orange);
+    }
+    .work-headline {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 6vw, 88px);
+      line-height: 0.92;
+      color: var(--ink);
+    }
+    .work-headline em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      color: var(--orange);
+      font-size: 0.9em;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-bottom: 2px;
+    }
+    .project-card {
+      background: var(--mist);
+      padding: 44px 36px;
+      position: relative;
+      overflow: hidden;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-decoration: none;
+      color: inherit;
+      cursor: none;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: var(--ink);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.4s cubic-bezier(0.76,0,0.24,1);
+      z-index: 0;
+    }
+    .project-card:hover::before { transform: scaleY(1); }
+    .project-card:hover .project-num,
+    .project-card:hover .project-name,
+    .project-card:hover .project-desc,
+    .project-card:hover .project-tag { color: var(--cream); border-color: rgba(255,255,255,0.15); }
+    .project-card:hover .project-arrow { color: var(--orange); transform: translate(4px,-4px); }
+    .project-card.wide { grid-column: span 2; }
+    .project-card.wide .project-name { font-size: 52px; }
+    .project-card.dark { background: var(--ink); }
+    .project-card.dark .project-num,
+    .project-card.dark .project-name,
+    .project-card.dark .project-desc { color: var(--cream); }
+    .project-card.dark .project-tag { color: rgba(245,240,232,0.4); border-color: rgba(245,240,232,0.15); }
+    .project-card.dark .project-arrow { color: var(--orange); }
+    .project-card.dark::before { background: #1a1814; }
+    .project-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--mid);
+      position: relative; z-index: 1;
+      transition: color 0.3s;
+    }
+    .project-body { position: relative; z-index: 1; }
+    .project-name {
+      font-family: var(--font-display);
+      font-size: 36px;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      margin-bottom: 12px;
+      transition: color 0.3s;
+    }
+    .project-desc {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--mid);
+      margin-bottom: 20px;
+      transition: color 0.3s;
+    }
+    .project-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid rgba(14,12,9,0.2);
+      padding: 4px 12px;
+      border-radius: 100px;
+      color: var(--mid);
+      transition: color 0.3s, border-color 0.3s;
+    }
+    .project-arrow {
+      position: absolute;
+      bottom: 36px; right: 36px;
+      font-size: 22px;
+      z-index: 1;
+      transition: color 0.3s, transform 0.3s;
+      color: var(--mid);
+    }
+
+    .personal { padding: 80px 48px; background: var(--ink); }
+    .personal-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .personal-eyebrow::after {
+      content: '';
+      display: block;
+      width: 48px; height: 1px;
+      background: var(--gold);
+    }
+    .personal-headline {
+      font-family: var(--font-display);
+      font-size: clamp(48px,5vw,72px);
+      line-height: 0.92;
+      color: var(--cream);
+      margin-bottom: 56px;
+    }
+    .personal-headline em {
+      font-family: var(--font-serif);
+      font-style: italic;
+      color: var(--gold);
+    }
+    .personal-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 2px;
+    }
+    .personal-card {
+      background: rgba(245,240,232,0.04);
+      border: 1px solid rgba(245,240,232,0.07);
+      padding: 36px 28px;
+      transition: background 0.3s;
+      cursor: none;
+    }
+    .personal-card:hover { background: rgba(245,240,232,0.08); }
+    .personal-card-icon { font-size: 28px; margin-bottom: 20px; display: block; }
+    .personal-card-name {
+      font-family: var(--font-display);
+      font-size: 26px;
+      color: var(--cream);
+      line-height: 1;
+      margin-bottom: 12px;
+      letter-spacing: 0.02em;
+    }
+    .personal-card-desc {
+      font-size: 13px;
+      line-height: 1.6;
+      color: rgba(245,240,232,0.45);
+    }
+    .personal-card-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid rgba(212,168,67,0.3);
+      color: var(--gold);
+      padding: 4px 10px;
+      border-radius: 100px;
+      margin-top: 20px;
+    }
+
+    .contact {
+      background: var(--ink);
+      padding: 100px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      border-top: 1px solid rgba(245,240,232,0.06);
+    }
+    .contact-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .contact-eyebrow::after {
+      content: '';
+      display: block;
+      width: 48px; height: 1px;
+      background: var(--gold);
+    }
+    .contact-headline {
+      font-family: var(--font-display);
+      font-size: clamp(72px,8vw,112px);
+      line-height: 0.9;
+      color: var(--cream);
+    }
+    .contact-headline .gold { color: var(--gold); }
+    .contact-form { display: flex; flex-direction: column; gap: 20px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.4);
+    }
+    .form-input, .form-select, .form-textarea {
+      background: rgba(245,240,232,0.05);
+      border: 1px solid rgba(245,240,232,0.1);
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 14px 16px;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+      -webkit-appearance: none;
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: rgba(245,240,232,0.2); }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--orange); }
+    .form-select {
+      cursor: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23F5F0E8' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+      color: rgba(245,240,232,0.4);
+    }
+    .form-select option { background: var(--ink); color: var(--cream); }
+    .form-textarea { resize: none; height: 120px; }
+    .btn-submit {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      background: var(--orange);
+      color: var(--cream);
+      border: none;
+      padding: 16px 32px;
+      cursor: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      align-self: flex-start;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-submit:hover { background: #a83a14; transform: translateY(-1px); }
+
+    footer {
+      background: var(--ink);
+      border-top: 1px solid rgba(245,240,232,0.06);
+      padding: 28px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer span {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: rgba(245,240,232,0.25);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      nav { padding: 24px 24px; }
+      .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 120px; }
+      .hero-left { padding: 0 24px 60px; }
+      .hero-right { display: none; }
+      .work { padding: 80px 24px 60px; }
+      .project-grid { grid-template-columns: 1fr; }
+      .project-card.wide { grid-column: span 1; }
+      .project-card.wide .project-name { font-size: 36px; }
+      .personal { padding: 60px 24px; }
+      .personal-grid { grid-template-columns: repeat(2,1fr); }
+      .contact { grid-template-columns: 1fr; padding: 80px 24px; gap: 48px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">{{ hero.first_name }} {{ hero.last_name }}</a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">{{ hero.eyebrow }}</p>
+      <h1 class="hero-name">
+        {{ hero.first_name }}<br>
+        <span class="accent">{{ hero.last_name }}</span>
+      </h1>
+      <p class="hero-tagline">{{ hero.tagline }}</p>
+      <div class="hero-ctas">
+        <a href="#work" class="btn-primary">Studio</a>
+        <a href="#work" class="btn-outline">Partnerships</a>
+        <a href="#work" class="btn-outline">Deal Flow</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-grid">
+        {% for i in range(20) %}<div></div>{% endfor %}
+      </div>
+      <div class="hero-circle"></div>
+      <div class="hero-bg-text">CONCEPTS<br>AUDIENCE</div>
+    </div>
+  </section>
+
+  <!-- BANNER -->
+  <div class="banner">
+    <div class="banner-inner">
+      {% for item in banner.items %}
+        <span class="banner-item">{{ item }}</span>
+        <span class="banner-dot">✦</span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- WORK -->
+  <section class="work" id="work">
+    <div class="work-header reveal">
+      <p class="section-eyebrow">{{ work.eyebrow }}</p>
+      <h2 class="work-headline">Things I've<br><em>Built</em> &amp; Backed</h2>
+    </div>
+
+    <div class="project-grid">
+      {% for project in collections.projects | sort(attribute="data.number") %}
+        {% if project.data.status == "live" %}
+          <a href="{{ project.data.slug }}.html" class="project-card reveal {% if project.data.card_wide %}wide{% endif %} {% if project.data.card_style == 'dark' %}dark{% endif %}">
+        {% else %}
+          <div class="project-card reveal {% if project.data.card_wide %}wide{% endif %} {% if project.data.card_style == 'dark' %}dark{% endif %}">
+        {% endif %}
+          <span class="project-num">{{ project.data.number }}</span>
+          <div class="project-body">
+            <div class="project-name">{{ project.data.title }}</div>
+            <p class="project-desc">{{ project.data.card_desc }}</p>
+            <span class="project-tag">{{ project.data.card_tag }}</span>
+          </div>
+          <span class="project-arrow">↗</span>
+        {% if project.data.status == "live" %}
+          </a>
+        {% else %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- PERSONAL PROJECTS -->
+  <section class="personal" id="personal">
+    <p class="personal-eyebrow">Personal Projects</p>
+    <h2 class="personal-headline">Outside<br>the <em>Brief</em></h2>
+    <div class="personal-grid">
+      {% for item in collections.personal | sort(attribute="data.order") %}
+        <div class="personal-card reveal">
+          <span class="personal-card-icon">{{ item.data.icon }}</span>
+          <div class="personal-card-name">{{ item.data.title }}</div>
+          <p class="personal-card-desc">{{ item.data.desc }}</p>
+          <span class="personal-card-tag">{{ item.data.tag }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-left reveal">
+      <p class="contact-eyebrow">{{ contact.eyebrow }}</p>
+      <h2 class="contact-headline">
+        {{ contact.headline_1 }}<br>
+        {{ contact.headline_2 }}<br>
+        <span class="gold">{{ contact.headline_3 }}</span>
+      </h2>
+    </div>
+    <div class="contact-form reveal">
+      <div class="form-group">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-input" placeholder="Your name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">What's This About?</label>
+        <select class="form-select">
+          <option value="" disabled selected>Select a topic</option>
+          <option>Studio / Creative Work</option>
+          <option>Partnership Opportunity</option>
+          <option>Deal Flow</option>
+          <option>Something Else</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-textarea" placeholder="Tell me what you're working on..."></textarea>
+      </div>
+      <button class="btn-submit">Send It <span>→</span></button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>{{ footer.copyright }}</span>
+    <span>{{ footer.location }}</span>
+  </footer>
+
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      setTimeout(() => {
+        ring.style.left = e.clientX + 'px';
+        ring.style.top = e.clientY + 'px';
+      }, 60);
+    });
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
