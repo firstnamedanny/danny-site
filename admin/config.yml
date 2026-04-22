@@ -1,0 +1,99 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+
+  - name: "settings"
+    label: "Site Settings"
+    files:
+
+      - name: "hero"
+        label: "Hero Section"
+        file: "_data/hero.json"
+        fields:
+          - { label: "Eyebrow Text", name: "eyebrow", widget: "string" }
+          - { label: "First Name", name: "first_name", widget: "string" }
+          - { label: "Last Name", name: "last_name", widget: "string" }
+          - { label: "Tagline", name: "tagline", widget: "string" }
+
+      - name: "banner"
+        label: "Banner"
+        file: "_data/banner.json"
+        fields:
+          - label: "Banner Items"
+            name: "items"
+            widget: "list"
+            field: { label: "Item", name: "item", widget: "string" }
+
+      - name: "work"
+        label: "Work Section"
+        file: "_data/work.json"
+        fields:
+          - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+          - { label: "Headline", name: "headline", widget: "string" }
+
+      - name: "contact"
+        label: "Contact Section"
+        file: "_data/contact.json"
+        fields:
+          - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+          - { label: "Headline Line 1", name: "headline_1", widget: "string" }
+          - { label: "Headline Line 2", name: "headline_2", widget: "string" }
+          - { label: "Headline Line 3 (Gold)", name: "headline_3", widget: "string" }
+
+      - name: "footer"
+        label: "Footer"
+        file: "_data/footer.json"
+        fields:
+          - { label: "Copyright Text", name: "copyright", widget: "string" }
+          - { label: "Location", name: "location", widget: "string" }
+
+  - name: "projects"
+    label: "Case Studies"
+    folder: "_data/projects"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Project Number", name: "number", widget: "string" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Card Description", name: "card_desc", widget: "text" }
+      - { label: "Card Tag", name: "card_tag", widget: "string" }
+      - { label: "Status", name: "status", widget: "select", options: ["live", "coming-soon"] }
+      - { label: "Card Style", name: "card_style", widget: "select", options: ["light", "dark"] }
+      - { label: "Wide Card", name: "card_wide", widget: "boolean", default: false }
+      - { label: "Hero Image", name: "hero_image", widget: "image", required: false }
+      - { label: "Origin Story", name: "origin", widget: "text", required: false }
+      - { label: "Role Description", name: "role", widget: "text", required: false }
+      - label: "Stats"
+        name: "stats"
+        widget: "list"
+        fields:
+          - { label: "Number", name: "num", widget: "string" }
+          - { label: "Label", name: "label", widget: "string" }
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        field: { label: "Tag", name: "tag", widget: "string" }
+      - label: "Images"
+        name: "images"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Image", name: "image", widget: "image" }
+          - { label: "Caption", name: "caption", widget: "string", required: false }
+
+  - name: "personal_projects"
+    label: "Personal Projects"
+    folder: "_data/personal"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Name", name: "title", widget: "string" }
+      - { label: "Emoji / Icon", name: "icon", widget: "string" }
+      - { label: "Description", name: "desc", widget: "text" }
+      - { label: "Tag", name: "tag", widget: "string" }
+      - { label: "Sort Order", name: "order", widget: "number" }
